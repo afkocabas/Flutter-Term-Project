@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:project/Pages/search_meal_page.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:project/User/user_state.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -10,6 +12,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  // access to the user state
+
   void searchFoodScreen(BuildContext context) {
     showModalBottomSheet(
         // make it as wide as the device
@@ -26,6 +30,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final userState = Provider.of<UserState>(context);
+    String email = userState.userEmail;
+
     return Scaffold(
       floatingActionButton: FloatingActionButton(
           disabledElevation: 20,
@@ -47,12 +54,23 @@ class _HomePageState extends State<HomePage> {
                 child: Container(
                   alignment: Alignment.topCenter,
                   margin: const EdgeInsets.only(top: 10),
-                  child: const Text(
-                    'Food Facts',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  child: Column(
+                    children: [
+                      const Text(
+                        'Food Facts',
+                        style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        email,
+                        style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -92,6 +110,7 @@ class _HomePageState extends State<HomePage> {
                 leading: const Icon(Icons.logout),
                 title: const Text('Log Out'),
                 onTap: () {
+                  userState.logout();
                   Navigator.pop(context);
 
                   Navigator.pushNamed(context, '/login');
