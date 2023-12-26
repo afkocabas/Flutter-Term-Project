@@ -18,7 +18,6 @@ class _HomePageState extends State<HomePage> {
     showModalBottomSheet(
         // make it as wide as the device
         elevation: 50,
-        shape: const BeveledRectangleBorder(),
         isScrollControlled: true,
         constraints: BoxConstraints(
           minHeight: MediaQuery.of(context).size.height * 0.6,
@@ -32,6 +31,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final userState = Provider.of<UserState>(context);
     String email = userState.userEmail;
+    String userId = userState.userId;
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -65,6 +65,13 @@ class _HomePageState extends State<HomePage> {
                       ),
                       Text(
                         email,
+                        style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        userId,
                         style: const TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,

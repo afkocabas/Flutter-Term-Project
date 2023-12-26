@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:project/Authentication/authenticaton_service.dart';
 import 'package:project/User/user_state.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -33,39 +33,38 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _confirmPasswordController =
       TextEditingController();
 
-  final AuthenticatonService _authenticatonService = AuthenticatonService();
-
   void trySignUp() async {
     String email = _emailController.text;
     String password = _passwordController.text;
     String confirmPassword = _confirmPasswordController.text;
 
-    if (password != confirmPassword) {
+    final userState = Provider.of<UserState>(context, listen: false);
+
+    if (password != confirmPassword || password.isEmpty) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
+            icon: const Icon(Icons.error),
             title: const Text('Error'),
-            content: const Text('Passwords do not match'),
+            content: const Text('It seems like you have entered invalid data.'),
+            alignment: Alignment.centerLeft,
             actions: [
-              TextButton(
+              ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
                 child: const Text('OK'),
               ),
             ],
-          );
+          ).animate().fadeIn().slideY();
         },
       );
     }
     // if the passwords match, try to register with firebase
-    User? user = await _authenticatonService.registerWithEmailAndPassword(
-        email, password);
+    await userState.register(email, password);
+    User? user = userState.user;
     if (user != null && mounted) {
-      final userState = Provider.of<UserState>(context, listen: false);
-      userState.setUser(user);
-      userState.register(email, password);
       Navigator.of(context).pushNamed('/login');
     } else {
       showDialog(

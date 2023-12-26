@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
         },
         title: 'Food Facts',
         theme: ThemeData(
-          fontFamily: GoogleFonts.robotoMono().fontFamily,
+          fontFamily: GoogleFonts.alexandria().fontFamily,
           brightness: Brightness.light,
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(
