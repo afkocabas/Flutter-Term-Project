@@ -21,8 +21,6 @@ class UserState with ChangeNotifier {
 
   // handle user registration
   Future<void> register(String email, String password) async {
-    _user = await _authenticatonService.registerWithEmailAndPassword(
-        email, password);
     await _firestore.collection('users').doc(_user!.uid).set({
       'email': _user!.email,
       'uid': _user!.uid,
@@ -32,12 +30,11 @@ class UserState with ChangeNotifier {
 
   // handle user logout
   Future<void> logout() async {
-    await _authenticatonService.signOut();
-    _user = null;
+    _authenticatonService.signOut();
     notifyListeners();
   }
 
-  void setUser(User user) {
+  void setUser(User? user) {
     _user = user;
     notifyListeners();
   }

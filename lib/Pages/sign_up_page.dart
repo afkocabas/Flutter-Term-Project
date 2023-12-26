@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project/Authentication/authenticaton_service.dart';
+import 'package:project/User/user_state.dart';
+import 'package:provider/provider.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -61,6 +63,9 @@ class _SignUpPageState extends State<SignUpPage> {
     User? user = await _authenticatonService.registerWithEmailAndPassword(
         email, password);
     if (user != null && mounted) {
+      final userState = Provider.of<UserState>(context, listen: false);
+      userState.setUser(user);
+      userState.register(email, password);
       Navigator.of(context).pushNamed('/login');
     } else {
       showDialog(
@@ -162,7 +167,10 @@ class _SignUpPageState extends State<SignUpPage> {
               },
               child: const Text('Sign Up'),
             ),
-            Text("Already have an account?", style: TextStyle(fontSize: 15)),
+            const Text(
+              "Already have an account?",
+              style: TextStyle(fontSize: 15),
+            ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.white,
@@ -178,8 +186,8 @@ class _SignUpPageState extends State<SignUpPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Icons.arrow_back),
-                  const Text('Back to Log In'),
+                  Icon(Icons.arrow_back),
+                  Text('Back to Log In'),
                 ],
               ),
             ),

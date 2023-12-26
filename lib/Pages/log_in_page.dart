@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project/Authentication/authenticaton_service.dart';
+import 'package:project/User/user_state.dart';
+import 'package:provider/provider.dart';
 
 class LogInPage extends StatefulWidget {
   const LogInPage({super.key});
@@ -15,6 +17,8 @@ class _LogInPageState extends State<LogInPage> {
 
   final AuthenticatonService _authenticatonService = AuthenticatonService();
 
+  bool isLoggingIn = false;
+
   @override
   void dispose() {
     _emailController.dispose();
@@ -25,10 +29,13 @@ class _LogInPageState extends State<LogInPage> {
   void tryLogIn() async {
     String email = _emailController.text;
     String password = _passwordController.text;
+    final userState = Provider.of<UserState>(context, listen: false);
 
-    User? user =
-        await _authenticatonService.signInWithEmailAndPassword(email, password);
+    await userState.login(email, password);
+
+    User? user = userState.user;
     if (user != null && mounted) {
+      userState.setUser(user);
       Navigator.of(context).pushNamed('/home');
     } else {
       showDialog(

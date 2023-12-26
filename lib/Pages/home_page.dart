@@ -110,10 +110,11 @@ class _HomePageState extends State<HomePage> {
                 leading: const Icon(Icons.logout),
                 title: const Text('Log Out'),
                 onTap: () {
-                  userState.logout();
-                  Navigator.pop(context);
-
                   Navigator.pushNamed(context, '/login');
+                  // add delay
+                  Future.delayed(const Duration(milliseconds: 500), () {
+                    userState.logout();
+                  });
                 },
               ),
             ],
