@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:project/API/food.dart';
 import 'package:project/Pages/search_meal_page.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:project/User/user_state.dart';
+import 'package:project/Widgets/list_of_foods.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -32,6 +34,8 @@ class _HomePageState extends State<HomePage> {
     final userState = Provider.of<UserState>(context);
     String email = userState.userEmail;
     String userId = userState.userId;
+
+    List<Food> foodList = userState.foodList;
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -145,9 +149,14 @@ class _HomePageState extends State<HomePage> {
         margin: const EdgeInsets.all(10),
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
+          image: const DecorationImage(
+            image: AssetImage('assets/images/home_page_background.png'),
+            fit: BoxFit.cover,
+            opacity: 0.5,
+          ),
           borderRadius: BorderRadius.circular(20),
-          color: Colors.green.shade100,
         ),
+        child: ListOfFoods(foods: foodList).animate().fadeIn().slideX(),
       ),
     );
   }

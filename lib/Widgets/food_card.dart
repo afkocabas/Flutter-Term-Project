@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:project/API/food.dart';
 import 'package:project/Pages/food_details_page.dart';
 
@@ -27,6 +28,6 @@ class FoodCard extends StatelessWidget {
           title: Text(food.formattedName),
         ),
       ),
-    );
+    ).animate().fadeIn().slideX();
   }
 }

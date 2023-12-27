@@ -35,14 +35,27 @@ class MyApp extends StatelessWidget {
         },
         title: 'Food Facts',
         theme: ThemeData(
-          fontFamily: GoogleFonts.alexandria().fontFamily,
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+              foregroundColor: Colors.white,
+              backgroundColor: Colors.green,
+              elevation: 20,
+              shadowColor: Colors.green,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(20),
+                ),
+              ),
+            ),
+          ),
+          fontFamily: GoogleFonts.roboto().fontFamily,
           brightness: Brightness.light,
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.green,
+            seedColor: Colors.green.shade100,
           ).copyWith(
-            primary: Colors.green,
-            secondary: Colors.green.shade300,
+            primary: Colors.grey,
+            secondary: Colors.grey.shade300,
           ),
           appBarTheme: AppBarTheme(
             shadowColor: Colors.green,

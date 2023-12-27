@@ -9,17 +9,20 @@ class UserState with ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   User? _user;
-  List<Food>? _foodList;
+  List<Food> _foodList = [];
   User? get user => _user;
 
   String get userId => _user!.uid;
   String get userEmail => _user!.email!;
-  List<Food>? get foodList => _foodList;
+  List<Food> get foodList => _foodList;
 
   // handle user login
   Future<void> login(String email, String password) async {
     _user =
         await _authenticatonService.signInWithEmailAndPassword(email, password);
+    if (_user != null) {
+      fetchFood(_user!.uid);
+    }
     notifyListeners();
   }
 
@@ -27,6 +30,9 @@ class UserState with ChangeNotifier {
   Future<void> register(String email, String password) async {
     _user = await _authenticatonService.registerWithEmailAndPassword(
         email, password);
+    if (_user == null) {
+      return;
+    }
     await _firestore.collection('users').doc(_user!.uid).set({
       'email': _user!.email,
       'uid': _user!.uid,
@@ -42,6 +48,22 @@ class UserState with ChangeNotifier {
         .doc(userId)
         .collection('food')
         .add(food.toMap());
+    _foodList.add(food);
+    notifyListeners();
+  }
+
+  // handle getting food from the database and set it to the foodList
+  Future<void> fetchFood(String userId) async {
+    List<Food> foodList = [];
+    final foodSnapshot = await _firestore
+        .collection('users')
+        .doc(userId)
+        .collection('food')
+        .get();
+    foodSnapshot.docs.forEach((food) {
+      foodList.add(Food.fromMap(food.data()));
+    });
+    _foodList = foodList;
     notifyListeners();
   }
 

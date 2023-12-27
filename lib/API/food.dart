@@ -25,6 +25,19 @@ class Food {
     );
   }
 
+  factory Food.fromMap(Map<String, dynamic> map) {
+    return Food(
+      name: map['name'],
+      imageURL: map['imageURL'],
+      image: Image.network(
+        map['imageURL'],
+        width: 100,
+        height: 100,
+      ),
+      nutriments: map['nutriments'],
+    );
+  }
+
   String get formattedName {
     List<String> words = name.split(' ').map((word) {
       return word[0].toUpperCase() + word.substring(1).toLowerCase();
