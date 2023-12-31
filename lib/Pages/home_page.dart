@@ -33,7 +33,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final userState = Provider.of<UserState>(context);
     String email = userState.userEmail;
-    String userId = userState.userId;
 
     List<Food> foodList = userState.foodList;
 
@@ -67,15 +66,9 @@ class _HomePageState extends State<HomePage> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
+                      const SizedBox(height: 10),
                       Text(
                         email,
-                        style: const TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        userId,
                         style: const TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
@@ -123,7 +116,7 @@ class _HomePageState extends State<HomePage> {
                 onTap: () {
                   Navigator.pushNamed(context, '/login');
                   // add delay
-                  Future.delayed(const Duration(milliseconds: 500), () {
+                  Future.delayed(const Duration(milliseconds: 100), () {
                     userState.logout();
                   });
                 },
@@ -152,7 +145,7 @@ class _HomePageState extends State<HomePage> {
           image: const DecorationImage(
             image: AssetImage('assets/images/home_page_background.png'),
             fit: BoxFit.cover,
-            opacity: 0.5,
+            opacity: 0.7,
           ),
           borderRadius: BorderRadius.circular(20),
         ),

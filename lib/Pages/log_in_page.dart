@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:project/Authentication/authenticaton_service.dart';
 import 'package:project/User/user_state.dart';
 import 'package:provider/provider.dart';
 
@@ -14,8 +13,6 @@ class LogInPage extends StatefulWidget {
 class _LogInPageState extends State<LogInPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
-  final AuthenticatonService _authenticatonService = AuthenticatonService();
 
   bool isLoggingIn = false;
 

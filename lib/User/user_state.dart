@@ -70,6 +70,8 @@ class UserState with ChangeNotifier {
   // handle user logout
   Future<void> logout() async {
     _authenticatonService.signOut();
+    _user = null;
+    _foodList = [];
     notifyListeners();
   }
 
