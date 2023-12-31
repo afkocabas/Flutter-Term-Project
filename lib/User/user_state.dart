@@ -41,6 +41,17 @@ class UserState with ChangeNotifier {
     notifyListeners();
   }
 
+  // save food list to the database
+  Future<void> saveFoodList(String userId) async {
+    for (var food in _foodList) {
+      await _firestore
+          .collection('users')
+          .doc(userId)
+          .collection('food')
+          .add(food.toMap());
+    }
+  }
+
   // handle adding food to the database
   Future<void> addFood(String userId, Food food) async {
     await _firestore
@@ -49,6 +60,28 @@ class UserState with ChangeNotifier {
         .collection('food')
         .add(food.toMap());
     _foodList.add(food);
+    notifyListeners();
+  }
+
+  // handle removing food from the database
+  Future<void> removeFood(String userId, Food food) async {
+    QuerySnapshot querySnapshot = await _firestore
+        .collection('users')
+        .doc(userId)
+        .collection('food')
+        .where('id', isEqualTo: food.id)
+        .get();
+
+    String docId = querySnapshot.docs.first.id;
+
+    await _firestore
+        .collection('users')
+        .doc(userId)
+        .collection('food')
+        .doc(docId)
+        .delete();
+
+    _foodList.remove(food);
     notifyListeners();
   }
 
@@ -69,7 +102,7 @@ class UserState with ChangeNotifier {
 
   // handle user logout
   Future<void> logout() async {
-    _authenticatonService.signOut();
+    await _authenticatonService.signOut();
     _user = null;
     _foodList = [];
     notifyListeners();

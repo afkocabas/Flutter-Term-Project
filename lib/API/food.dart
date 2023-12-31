@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 class Food {
+  final String id;
   final String name;
   final Image image;
   final Map<String, dynamic> nutriments;
   final String imageURL;
 
   Food(
-      {required this.name,
+      {required this.id,
+      required this.name,
       required this.image,
       required this.nutriments,
       required this.imageURL});
 
   factory Food.fromJson(Map<String, dynamic> json) {
+    var id = const Uuid().v1();
     return Food(
+      id: id,
       name: json['product']['product_name'],
       imageURL: json['product']['image_front_url'],
       image: Image.network(
@@ -27,6 +32,7 @@ class Food {
 
   factory Food.fromMap(Map<String, dynamic> map) {
     return Food(
+      id: map['id'],
       name: map['name'],
       imageURL: map['imageURL'],
       image: Image.network(
@@ -55,6 +61,7 @@ class Food {
   // make it a map so we can store it in firestore
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'name': name,
       'calories': calories,
       'imageURL': imageURL,
