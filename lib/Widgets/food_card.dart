@@ -7,8 +7,16 @@ import 'package:provider/provider.dart';
 import '../User/user_state.dart';
 
 class FoodCard extends StatelessWidget {
+  final Map<int, dynamic> novaColors = {
+    1: Colors.green.shade100,
+    2: Colors.yellow.shade100,
+    3: Colors.orange.shade100,
+    4: Colors.red.shade100,
+  };
   final Food food;
-  const FoodCard({required this.food, super.key});
+  final int novaGroup;
+  FoodCard({required this.food, super.key})
+      : novaGroup = food.nutriments['nova-group'];
 
   void displayFoodDetails(BuildContext context, Food food) {
     showModalBottomSheet(
@@ -22,14 +30,12 @@ class FoodCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userId = Provider.of<UserState>(context).userId;
-    print(userId);
     return Dismissible(
       key: Key(food.id),
       onDismissed: (direction) async {
         try {
           await Provider.of<UserState>(context, listen: false)
               .removeFood(userId, food);
-          print(food.id);
         } catch (e) {
           print(e);
         }
@@ -40,7 +46,12 @@ class FoodCard extends StatelessWidget {
         },
         child: Card(
           elevation: 10,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
           child: ListTile(
+            tileColor:
+                novaGroup != null ? novaColors[novaGroup] : Colors.grey[100],
             leading: SizedBox(height: 50, width: 50, child: food.image),
             trailing: Text(
               '${food.calories} kcal',
