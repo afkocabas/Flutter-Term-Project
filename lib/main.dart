@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/Pages/about_page.dart';
 import 'package:project/Pages/home_page.dart';
 import 'package:project/Pages/log_in_page.dart';
 import 'package:project/Pages/sign_up_page.dart';
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
           '/signup': (context) => const SignUpPage(),
           '/home': (context) => const HomePage(),
           '/user': (context) => const UserPage(),
+          '/about': (context) => const AboutPage(),
         },
         title: 'Food Facts',
         theme: ThemeData(

@@ -91,6 +91,7 @@ class _HomePageState extends State<HomePage> {
                 title: const Text('Search'),
                 onTap: () {
                   Navigator.pop(context);
+                  searchFoodScreen(context);
                 },
               ),
               // add a divider
@@ -104,10 +105,11 @@ class _HomePageState extends State<HomePage> {
               ),
               const Divider(),
               ListTile(
-                leading: const Icon(Icons.settings),
-                title: const Text('Settings'),
+                leading: const Icon(Icons.info),
+                title: const Text('About'),
                 onTap: () {
                   Navigator.pop(context);
+                  Navigator.pushNamed(context, '/about');
                 },
               ),
               ListTile(

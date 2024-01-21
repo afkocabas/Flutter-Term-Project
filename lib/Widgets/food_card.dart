@@ -14,7 +14,7 @@ class FoodCard extends StatelessWidget {
     4: Colors.red.shade100,
   };
   final Food food;
-  final int novaGroup;
+  final int? novaGroup;
   FoodCard({required this.food, super.key})
       : novaGroup = food.nutriments['nova-group'];
 
@@ -50,8 +50,9 @@ class FoodCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
           ),
           child: ListTile(
-            tileColor:
-                novaGroup != null ? novaColors[novaGroup] : Colors.grey[100],
+            tileColor: novaGroup != null
+                ? novaColors[novaGroup!]
+                : Colors.grey.shade200,
             leading: SizedBox(height: 50, width: 50, child: food.image),
             trailing: Text(
               '${food.calories} kcal',
